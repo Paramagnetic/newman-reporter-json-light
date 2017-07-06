@@ -63,8 +63,8 @@ function createLightSummary(summary) {
 module.exports = function(newman, options) {
     newman.on('beforeDone', function(err, o) {
         newman.exports.push({
-            name: 'json-reporter',
-            default: 'newman-run-report.json',
+            name: 'newman-reporter-json-light',
+            default: 'newman-run-report-light.json',
             path: options.export,
             content: JSON.stringify(createLightSummary(o.summary))
         });
