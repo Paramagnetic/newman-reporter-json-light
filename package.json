@@ -1,6 +1,6 @@
 {
   "name": "newman-reporter-json-light",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Reporter which cuts out a bunch of unnecessary items in the Newman JSON report. This can help get around issues with JSON.stringify running out of memory. It still uses JSON.stringify, but since it has a fraction of the data it is far less likely to run into 'RangeError: Invalid string length",
   "main": "index.js",
   "scripts": {
