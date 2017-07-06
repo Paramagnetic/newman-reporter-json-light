@@ -10,11 +10,11 @@ var _ = require('lodash');
  * @returns {*}
  */
 
-function createLightSummary(obj) {
-    obj = _.pick(obj, ['collection', 'run']);
+function createLightSummary(summary) {
+    summary = _.pick(summary, ['collection', 'run']);
 
     var failures = [];
-    obj.run.failures.forEach(function(failureReport) {
+    summary.run.failures.forEach(function(failureReport) {
         failures.push({
             'parent': {
                 'name': failureReport.parent.name,
@@ -31,26 +31,37 @@ function createLightSummary(obj) {
         });
     });
 
+    var collectionFolders = [];
+    summary.collection.items.members.forEach(function(collectionFolder){
+      var folderItems = [];
+      collectionFolder.items.members.forEach(function(folderItem) {
+        folderItems.push({'name': folderItem.name});
+      });
+      collectionFolders.push( {
+        'name': collectionFolder.name,
+        'item': folderItems
+      });
+    });
+
+    var lightSummary = {}
     Object.assign(lightSummary, {
         'collection': {
-            'description': obj.collection.description,
-            'item': obj.collection.items.members,
+            'description': summary.collection.description,
+            'item': collectionFolders,
             'info': {
-                'name': obj.collection.name
+                'name': summary.collection.name
             }
         },
         'run': {
-            'stats': obj.run.stats,
+            'stats': summary.run.stats,
             'failures': failures
         }
     });
-    return obj
+    return lightSummary
 }
 
 module.exports = function(newman, options) {
     newman.on('beforeDone', function(err, o) {
-        loopThrough(o.summary);
-
         newman.exports.push({
             name: 'json-reporter',
             default: 'newman-run-report.json',
