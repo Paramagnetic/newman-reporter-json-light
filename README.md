@@ -4,12 +4,16 @@ Newman reporter which mimics the built-in JSON reporter but only includes a few 
 This was created to get around the issue mentioned here:
 https://github.com/postmanlabs/newman/issues/935
 
+In testing, I have seen it drop a 15MB report down to 53KB.
+
 The report object contains the following items:  
 **collection.description.content**  
 **collection.description.type**  
 **collection.info.name**  
 **collection.item[].name**  
+**collection.item[].description.content**  
 **collection.item[].item[].name**  
+**collection.item[].item[].description.content**  
 
 **run.stats.***  
 **run.failures[].parent.name**  
